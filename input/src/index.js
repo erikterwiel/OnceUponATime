@@ -4,14 +4,14 @@ const key = require("./keys/watson");
 const fs = require("fs");
 const io = require("socket.io-client");
 
-const socket = io("http://localhost:5000/");
+const socket = io("https://shrouded-forest-21666.herokuapp.com/");
 
 const watson = new Watson({
   iam_apikey: key,
   url: "https://gateway-wdc.watsonplatform.net/speech-to-text/api",
 });
 
-socket.on("newCommand", () => console.log("got new command"));
+socket.on("newCommand", data => console.log(data));
 
 const recordInterval = () => {
 
