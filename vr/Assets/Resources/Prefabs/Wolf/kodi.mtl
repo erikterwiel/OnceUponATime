@@ -1,0 +1,57 @@
+newmtl acmat_0
+Kd 1 1 1
+Ka 0.2 0.2 0.2
+Ks 0.2 0.2 0.2
+Ns 128
+Tr 0
+newmtl acmat_1
+Kd 1 0 0
+Ka 0.2 0.2 0.2
+Ks 0.2 0.2 0.2
+Ns 128
+Tr 0
+newmtl acmat_2
+Kd 1 1 1
+Ka 0.2 0.2 0.2
+Ks 0.2 0.2 0.2
+Ns 128
+Tr 0
+map_Kd kodi_tex.png
+newmtl acmat_3
+Kd 0 0 0
+Ka 0.2 0.2 0.2
+Ks 0.2 0.2 0.2
+Ns 128
+Tr 0
+map_Kd kodi_tex.png
+newmtl acmat_4
+Kd 0.8 0.8 0.8
+Ka 0.2 0.2 0.2
+Ks 0.2 0.2 0.2
+Ns 128
+Tr 0
+map_Kd kodi_tex.png
+newmtl acmat_5
+Kd 0.0823529 0.0705882 0.0784314
+Ka 0.14902 0.113725 0.0941176
+Ks 0.101961 0.101961 0.101961
+Ns 60.16
+Tr 0
+newmtl acmat_6
+Kd 0 0 0
+Ka 0.2 0.2 0.2
+Ks 0.2 0.2 0.2
+Ns 128
+Tr 0
+newmtl acmat_7
+Kd 0 0 0
+Ka 0 0 0
+Ks 1 1 1
+Ns 104.96
+Tr 0
+newmtl acmat_8
+Kd 0.34902 0.207843 0.188235
+Ka 0.14902 0.113725 0.0941176
+Ks 0.101961 0.101961 0.101961
+Ns 34.56
+Tr 0

@@ -1,0 +1,104 @@
+newmtl Preview:1
+Ns 50
+Ka 0 0 0
+Kd 0.404615 0.363931 0.582564
+Ks 0.0291217 0.0488038 0.0458422
+d 1
+newmtl FP:1:1
+Ns 10
+Ka 0 0 0
+Kd 1 1 1
+Ks 0 0 0
+map_Kd SmallBricks.jpg
+d 1
+newmtl FP:2:1
+Ns 10
+Ka 0 0 0
+Kd 1 1 1
+Ks 0 0 0
+map_Kd SmallBricks.jpg
+d 1
+newmtl FP:3:1
+Ns 10
+Ka 0 0 0
+Kd 1 1 1
+Ks 0 0 0
+map_Kd SmallBricks.jpg
+d 1
+newmtl FP:4:1
+Ns 10
+Ka 0 0 0
+Kd 1 1 1
+Ks 0 0 0
+map_Kd SmallBricks.jpg
+d 1
+newmtl FP:5:1
+Ns 10
+Ka 0 0 0
+Kd 1 1 1
+Ks 0 0 0
+map_Kd SmallBricks.jpg
+d 1
+newmtl Moulding:6:1
+Ns 10
+Ka 0 0 0
+Kd 1 1 1
+Ks 0 0 0
+map_Kd Moulding2.jpg
+d 1
+newmtl Moulding:7:1
+Ns 10
+Ka 0 0 0
+Kd 1 1 1
+Ks 0 0 0
+map_Kd Moulding2.jpg
+d 1
+newmtl FP:8:1
+Ns 10
+Ka 0 0 0
+Kd 1 1 1
+Ks 0 0 0
+map_Kd SmallBricks.jpg
+d 1
+newmtl Hearth:1
+Ns 50
+Ka 0 0 0
+Kd 0.666667 0.666667 0.666667
+Ks 0.110876 0.0875925 0.167156
+map_Kd concrete.jpg
+d 1
+newmtl FP:10:1
+Ns 10
+Ka 0 0 0
+Kd 1 1 1
+Ks 0 0 0
+map_Kd SmallBricks.jpg
+d 1
+newmtl FP:11:1
+Ns 10
+Ka 0 0 0
+Kd 1 1 1
+Ks 0 0 0
+map_Kd SmallBricks.jpg
+d 1
+newmtl Mantel:12:1
+Ns 10
+Ka 0 0 0
+Kd 1 1 1
+Ks 0 0 0
+map_Kd Mantel.jpg
+d 1
+newmtl Moulding:6:2
+Ns 10
+Ka 0 0 0
+Kd 1 1 1
+Ks 0 0 0
+map_Kd Moulding2.jpg
+d 1
+newmtl MouldingTop:2
+Ns 50
+Ka 0 0 0
+Kd 0.996078 0.996078 0.996078
+Ks 0.14915 0.162463 0.119057
+map_Kd Moulding2.jpg
+d 1

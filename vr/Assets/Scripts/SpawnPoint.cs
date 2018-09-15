@@ -1,16 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpawnPoint : MonoBehaviour {
 
-	public GameObject obj = new GameObject();
+	public List<GameObject> storyObjects = new List<GameObject>();
+	public GameObject obj;
 	// Use this for initialization
 	void Start () {
-		var spawnPosition = new Vector3(1f, 1f, 1f);
-		var spawnRotation = Quaternion.Euler(0f, 0f, 0f);
-		obj = Resources.Load("Prefabs/Player") as GameObject;
-		Debug.Log (obj.name);
-		Instantiate(obj, spawnPosition, spawnRotation);
+		
+		for (int i = 0; i < 5; i++) {
+			var spawnPosition = new Vector3(1f + i, 1f + i, 1f + i);
+			var spawnRotation = Quaternion.Euler(0f, 0f, 0f);
+			obj = new GameObject ("MUX");
+			obj = Resources.Load("Prefabs/FirePlace/FP2015") as GameObject;
+			Debug.Log (obj.name);
+			storyObjects.Add (obj);
+			Instantiate(obj, spawnPosition, spawnRotation);
+		}
+		//StartCoroutine (stall (5));
+
+		for (int i = 0; i < 5; i++) {
+			storyObjects.RemoveAt (i);
+		}
+			
+	}
+
+	IEnumerator stall (int tiem) {
+		yield return new WaitForSeconds(tiem);
 	}
 	
 	// Update is called once per frame
