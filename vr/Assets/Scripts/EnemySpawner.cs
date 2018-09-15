@@ -12,18 +12,11 @@ public class EnemySpawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		// set the random spawn points over here
-		for (int i = 0; i < numberOfEnemies; i++)
-		{
-			var spawnPosition = new Vector3(Random.Range(-8f, 8f), 0f, Random.Range(-8f, 8f));
-			var spawnRotation = Quaternion.Euler(0f, Random.Range(0, 180), 0f);
-			SpawnPoint enemySpawnPoint = (Instantiate(spawnPoint, 
-			                                          spawnPosition, 
-			                                          spawnRotation) 
-			                              as GameObject).GetComponent<SpawnPoint>();
-			enemySpawnPoints.Add(enemySpawnPoint);
-		}
-		//SpawnEnemies();
+
+		var spawnPosition = new Vector3(1f, 1f, 1f);
+		var spawnRotation = Quaternion.Euler(0f, Random.Range(0, 180), 0f);
+		GameObject objPrefab = Resources.Load("Prefabs/Bullet.prefab") as GameObject;
+		GameObject obj = Instantiate(objPrefab, spawnPosition, spawnRotation) as GameObject;
 	}
 
 	public void SpawnEnemies(NetworkManager.EnemiesJSON enemiesJSON)
@@ -45,6 +38,8 @@ public class EnemySpawner : MonoBehaviour {
 			h.OnChangeHealth();
 			h.destroyOnDeath = true;
 			h.isEnemy = true;
+			Debug.Log (enemy.activeSelf);
+			Debug.Log (newEnemy.name);
 		}
 	}
 }
