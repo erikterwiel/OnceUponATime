@@ -1,22 +1,93 @@
-﻿using UnityEngine;
+﻿//using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//
+//public class SpawnPoint : MonoBehaviour {
+//
+//	public List<GameObject> storyObjects = new List<GameObject>();
+//	public GameObject obj = new GameObject();
+//	// Use this for initialization
+//	void Start () {
+//		Invoke ("SpawnObj", 2);
+//		Invoke ("SpawnObj", 2);
+//		Invoke ("SpawnObj", 2);
+//		Invoke ("SpawnObj", 2);
+//	}
+//
+//	void SpawnObj(){
+//		for (int i = 0; i < 5; i++) {
+//			var spawnPosition = new Vector3(1f + i, 1f + i, 1f + i);
+//			var spawnRotation = Quaternion.Euler(0f, 0f, 0f);
+//			obj = new GameObject ("MUX");
+//			obj = Resources.Load("Prefabs/FirePlace/FP2015") as GameObject;
+//			storyObjects.Add (obj);
+//			print (storyObjects);
+//			Instantiate(obj, spawnPosition, spawnRotation);
+//		}	
+//		//		StartCoroutine (stall (5));	
+//	}
+//
+////	void DeleteObj() {
+////		for (int i = 0; i < 5; i++) {
+////			DestroyImmediate(storyObjects[i] , true);
+////			//			storyObjects.RemoveAt (i);
+////			print("deleting");
+////		}
+////	}
+//	// Update is called once per frame
+//	void Update () {
+//
+//	}
+//	IEnumerator stall (int tiem) {
+//		yield return new WaitForSeconds(tiem);
+//	}
+//}
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
 //using Tensorflow;
 
+
+
 public class SpawnPoint : MonoBehaviour {
+
+	public Dictionary<string, string> CommandMap = new Dictionary<string, string> ();
+
+//	Renderer rend;
+	// Use this for initialization
+
+
 
 	public List<GameObject> storyObjects = new List<GameObject>();
 	public List<int[]> targetCoords = new List<int[]>();
 	public GameObject obj;
-	private bool toDraw = true;
+
 	void Start () {
 			
+		for (int i = 0; i < 5; i++) {
+			var spawnPosition = new Vector3(1f + i, 1f + i, 1f + i);
+			var spawnRotation = Quaternion.Euler(0f, 0f, 0f);
+			obj = new GameObject ("MUX");
+			obj = Resources.Load("Prefabs/FirePlace/FP2015") as GameObject;
+			storyObjects.Add (obj);
+			Instantiate(obj, spawnPosition, spawnRotation);
+			print (obj);
+		}
+		//StartCoroutine (stall (5));
+
+		for (int i = 0; i < 5; i++) {
+			storyObjects.RemoveAt (i);
+		}
+
 	}
 
 	IEnumerator stall (int tiem) {
 		yield return new WaitForSeconds(tiem);
 	}
+
+
 	
 	void Update () {
 

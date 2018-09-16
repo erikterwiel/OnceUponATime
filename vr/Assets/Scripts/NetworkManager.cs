@@ -25,8 +25,8 @@ public class NetworkManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// subscribe to all the various websocket events
-		Debug.Log("FUCK");
 		socket.On("newCommand", OnEnemies);
+		print("socket blockchain active");
 //		socket.On("other player connected", OnOtherPlayerConnected);
 //		socket.On("play", OnPlay);
 //		socket.On("player move", OnPlayerMove);
@@ -92,7 +92,7 @@ public class NetworkManager : MonoBehaviour {
 	void OnEnemies(SocketIOEvent socketIOEvent)
 	{
 		EnemiesJSON enemiesJSON = EnemiesJSON.CreateFromJSON(socketIOEvent.data.ToString());
-		Debug.Log(socketIOEvent.data.ToString ());
+		print(socketIOEvent.data.ToString ());
 		EnemySpawner es = GetComponent<EnemySpawner>();
 		es.SpawnEnemies(enemiesJSON);
 	}
@@ -125,7 +125,6 @@ public class NetworkManager : MonoBehaviour {
 	}
 	void OnPlay(SocketIOEvent socketIOEvent)
 	{
-		print("you joined");
 		string data = socketIOEvent.data.ToString();
 		UserJSON currentUserJSON = UserJSON.CreateFromJSON(data);
 		Vector3 position = new Vector3(currentUserJSON.position[0], currentUserJSON.position[1], currentUserJSON.position[2]);
