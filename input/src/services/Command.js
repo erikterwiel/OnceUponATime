@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 
 class CommandService {
   sendCommand(command) {
-    console.log(command);
+    console.log("Sending command: git", command);
     fetch("https://shrouded-forest-21666.herokuapp.com/", {
       method: "POST",
       headers: {
