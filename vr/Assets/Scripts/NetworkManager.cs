@@ -12,7 +12,7 @@ public class NetworkManager : MonoBehaviour {
 	public SocketIOComponent socket;
 	public InputField playerNameInput;
 	public GameObject player;
-	public static string commandData;
+	public string commandData;
 
 	void Awake()
 	{
@@ -93,9 +93,41 @@ public class NetworkManager : MonoBehaviour {
 
 	void SendCommands(SocketIOEvent socketIOEvent) {
 		CommandJSON commandJSON = CommandJSON.CreateFromJSON (socketIOEvent.data.ToString ());
-		print (commandJSON.command.ToString());
-		print (socketIOEvent.data.ToString ());
-		commandData = commandJSON.command.ToString ();
+//		print (commandJSON.command.ToString());
+//		print (socketIOEvent.data.ToString ());
+		this.commandData = commandJSON.command.ToString ();
+
+		string command = "";
+		string prefap = "";
+		int index, fromIndex, toIndex; 
+		int amount = "";
+
+		string[] commandArr = new string[3];
+		// List<string> fuck = new List<string> ();
+		commandArr = this.commandData.Split ('>');
+
+		if (commandArr [0] == "SHOW") {
+			command = commandArr [0];
+			prefap = commandArr [1];
+			amount = commandArr [2];
+		} else if (commandArr [0] == "HIDE") {
+			index = commandArr [1];
+		} else if (commandArr [0] == "MOVE") {
+			fromIndex = commandArr [1];
+			toIndex = commandArr [2];
+		} else {
+			print ("oh oh");
+		}
+			
+		for (int i = 0; i < fuck.Length; i++){
+			Console.WriteLine(fuck[i]);
+		}
+
+		SpawnPoint sp = new SpawnPoint ();
+
+		sp.show (prefap, amount);
+		sp.hide (index);
+		sp.move (fromIndex, toIndex);
 	}
 
 	void OnEnemies(SocketIOEvent socketIOEvent)
