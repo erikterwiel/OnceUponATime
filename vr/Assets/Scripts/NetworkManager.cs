@@ -96,38 +96,27 @@ public class NetworkManager : MonoBehaviour {
 //		print (commandJSON.command.ToString());
 //		print (socketIOEvent.data.ToString ());
 		this.commandData = commandJSON.command.ToString ();
-
-		string command = "";
-		string prefap = "";
-		int index, fromIndex, toIndex; 
-		int amount = "";
-
+	
 		string[] commandArr = new string[3];
-		// List<string> fuck = new List<string> ();
 		commandArr = this.commandData.Split ('>');
-
-		if (commandArr [0] == "SHOW") {
-			command = commandArr [0];
-			prefap = commandArr [1];
-			amount = commandArr [2];
-		} else if (commandArr [0] == "HIDE") {
-			index = commandArr [1];
-		} else if (commandArr [0] == "MOVE") {
-			fromIndex = commandArr [1];
-			toIndex = commandArr [2];
-		} else {
-			print ("oh oh");
-		}
-			
-		for (int i = 0; i < fuck.Length; i++){
-			Console.WriteLine(fuck[i]);
-		}
-
 		SpawnPoint sp = new SpawnPoint ();
 
-		sp.show (prefap, amount);
-		sp.hide (index);
-		sp.move (fromIndex, toIndex);
+		if (commandArr [0] == "SHOW") {
+			string command = commandArr [0];
+			string prefap = commandArr [1];
+			print ("SHOW" + prefap);
+			int amount = System.Convert.ToInt32(commandArr [2]);
+			sp.show (prefap, amount);
+		} else if (commandArr [0] == "HIDE") {
+			int index = System.Convert.ToInt32(commandArr [1]);
+			print ("HIDE", index);
+			sp.hide(index);
+		} else if (commandArr [0] == "MOVE") {
+			int fromIndex = System.Convert.ToInt32(commandArr [1]);
+			int toIndex = System.Convert.ToInt32(commandArr [2]);
+			print ("MOVE", fromIndex, toIndex);
+			sp.move (fromIndex, toIndex);
+		}
 	}
 
 	void OnEnemies(SocketIOEvent socketIOEvent)
