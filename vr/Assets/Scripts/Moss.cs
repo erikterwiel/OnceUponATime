@@ -13,6 +13,7 @@ public class Moss : MonoBehaviour
 	{
 		
 		string dictionaryString = "";
+
 		// Use Prefabs/* 
 		CommandMap.Add ("pig", "Pig/pig");
 		CommandMap.Add ("brick", "BrickHouse/Prefabs/Baker_house");
