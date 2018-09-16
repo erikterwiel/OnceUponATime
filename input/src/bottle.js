@@ -7,6 +7,6 @@ const bottle = new Bottle();
 
 bottle.service("commandService", CommandService);
 bottle.service("blockchainManager", BlockchainManager, "commandService");
-bottle.service("recordingManager", RecordingManager);
+bottle.service("recordingManager", RecordingManager, "blockchainManager");
 
 module.exports = bottle.container;

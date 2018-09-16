@@ -2,7 +2,6 @@ const record = require("node-record-lpcm16");
 const Watson = require("watson-developer-cloud/speech-to-text/v1");
 const fs = require("fs");
 const key = require("../keys/watson");
-const Bottle = require("../bottle");
 
 const watson = new Watson({
   iam_apikey: key,
@@ -10,6 +9,11 @@ const watson = new Watson({
 });
 
 class RecordingManager {
+  constructor(blockchainManager) {
+    this._blockchainManager = blockchainManager;
+    this.start = this.start.bind(this);
+    this._recordInterval = this._recordInterval.bind(this);
+  }
 
   start() {
     setInterval(this._recordInterval, 10000);
@@ -20,7 +24,7 @@ class RecordingManager {
     const watsonWriteStream = fs.createWriteStream("./tempOutput.txt");
     watsonWriteStream.on("close", () => {
       fs.readFile("./tempOutput.txt", "utf8", (err, contents) => {
-        bottle.blockchainManager.antiMoss(contents);
+        this._blockchainManager.antiMoss(contents);
       })
     });
 
