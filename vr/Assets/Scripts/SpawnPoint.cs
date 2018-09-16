@@ -143,15 +143,19 @@ public class SpawnPoint : MonoBehaviour {
 		yield return new WaitForSeconds(tiem);
 	}
 		
-	void show (string fileName, int amount) {
+	public void show (string fileName, int amount) {
 	
 	}
 
+<<<<<<< HEAD
 	void hide (int index) {
 >>>>>>> b7a2713... fixed Network Manager
+=======
+	public void hide (int index) {
+>>>>>>> cbdf8ab... Did some shit idk
 	}
 
-	void move (int fromIndex, int toIndex) {
+	public void move (int fromIndex, int toIndex) {
 	}
 	
 //	void Update () {
