@@ -1,22 +1,27 @@
-const wordpos = require("wordpos");
+const Wordpos = require("wordpos");
 
-// OPERATION, OBJECT, AMOUNT
+const wordpos = new Wordpos();
+
 const show = ["built", "was", "were"];
 const hide = ["eight", "down"];
 const move = ["came"];
 const showMove = [];
 const moveHide = ["ate"];
 
-const negation = ["not"];
+const numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "eleven", "twelve"];
+const badNouns = ["a"];
 
 const nounMap = {
   background: "blue",
   ground: "green",
   pig: "Pig/pig",
+  pigs: "Pig/pig",
   house: "HOUSE",
   fireplace: "FirePlace/Prefabs/FP2015",
   tree: "Tree/MinecraftTree",
 };
+
+
 
 // CommandMap.Add ("brick", "BrickHouse/Prefabs/Baker_house");
 // CommandMap.Add ("straw", "StrawHouse/medievalhouse");
@@ -55,59 +60,146 @@ class BlockchainManager {
     this._queue.push(`SHOW>${nounMap.tree}>12`);
   }
 
-  show() {
+  async show(words, verbIndex) {
+    let number = 1;
+    let noun = "";
+    let nounIndex;
+    let adjective = "";
+
+    for (let i = verbIndex; i < words.length; i++) {
+      const word = words[i];
+
+      if (numbers.includes(word)) {
+        number = numbers.find(word);
+        continue;
+      }
+
+      let willBreak = false;
+
+      const isNoun = await new Promise(resolve => {
+        wordpos.isNoun(word, isNoun => resolve(isNoun));
+      });
+
+      const isReallyNoun = !badNouns.includes(word) && isNoun;
+      if (isReallyNoun) {
+        noun = word;
+        nounIndex = i;
+        willBreak = true;
+      }
+
+      if (willBreak) {
+        break;
+      }
+    }
+
+    if (nounIndex) {
+      wordpos.isAdjective(words[nounIndex - 1], isAdjective => {
+        if (isAdjective) {
+          adjective = words[nounIndex - 1];
+        }
+      });
+
+      if (words[nounIndex + 1] === "out" && words[nounIndex + 2] === "of") {
+        adjective = words[nounIndex + 2];
+      }
+    }
+
+    const word = adjective ? `${adjective} ${noun}` : noun;
+    const command = `SHOW>${nounMap[word]}>${number}`;
+
+    console.log(command);
+
+    this._queue.push(command);
+
   }
 
-  hide() {
+
+  hide(words, verbIndex) {
 
   }
 
-  move() {
+  async move(words, verbIndex) {
+    let number = 1;
+    let noun = "";
+    let nounIndex;
+    let adjective = "";
+
+    for (let i = verbIndex; i < words.length; i++) {
+      const word = words[i];
+
+      if (numbers.includes(word)) {
+        number = numbers.find(word);
+        continue;
+      }
+
+      let willBreak = false;
+
+      const isNoun = await new Promise(resolve => {
+        wordpos.isNoun(word, isNoun => resolve(isNoun));
+      });
+
+      const isReallyNoun = !badNouns.includes(word) && isNoun;
+      if (isReallyNoun) {
+        noun = word;
+        nounIndex = i;
+        willBreak = true;
+      }
+
+      if (willBreak) {
+        break;
+      }
+    }
+
+    if (nounIndex) {
+      wordpos.isAdjective(words[nounIndex - 1], isAdjective => {
+        if (isAdjective) {
+          adjective = words[nounIndex - 1];
+        }
+      });
+
+      if (words[nounIndex + 1] === "out" && words[nounIndex + 2] === "of") {
+        adjective = words[nounIndex + 2];
+      }
+    }
+
+    const word = adjective ? `${adjective} ${noun}` : noun;
+    const command = `SHOW>${nounMap[word]}>${number}`;
+
+    console.log(command);
+
+    this._queue.push(command);
 
   }
 
-  showMove() {
+  showMove(words, verbIndex) {
 
   }
 
-  moveHide() {
+  moveHide(words, verbIndex) {
 
   }
 
   antiMoss(string) {
+    console.log(string);
     const words = string.split(" ");
 
     for (let i = 0; i < words.length; i++) {
 
       const verb = words[i];
-      let command = "";
 
       if (verb === "generate") {
-        continue;
+        this.generate();
       } else if (show.includes(verb)) {
-        command += "SHOW";
+        this.show(words, i);
       } else if (hide.includes(verb)) {
-        command += "HIDE";
+        this.hide(words, i);
       } else if (move.includes(verb)) {
-        command += "MOVE";
-      } else {
-        continue;
+        this.move(words, i);
+      } else if (showMove.includes(verb)) {
+        this.showMove(words, i);
+      } else if (moveHide.includes(verb)) {
+        this.moveHide(words, i);
       }
-
-      command += ">";
-      // let nopun
-
-      for (let j = i + 1; j < words.length; j++) {
-        const noun = words[j];
-        wordpos.isNoun(noun, (isNoun) => {
-          if (isNoun) {
-            command += noun;
-          }
-        });
-      }
-
-      this._queue.push();
-
     }
 
   }
