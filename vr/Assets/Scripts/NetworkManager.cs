@@ -95,7 +95,7 @@ public class NetworkManager : MonoBehaviour {
 		CommandJSON commandJSON = CommandJSON.CreateFromJSON (socketIOEvent.data.ToString ());
 		print (commandJSON.command.ToString());
 		print (socketIOEvent.data.ToString ());
-		commandData = commandJSON.ToString ();
+		commandData = commandJSON.command.ToString ();
 	}
 
 	void OnEnemies(SocketIOEvent socketIOEvent)
@@ -220,7 +220,7 @@ public class NetworkManager : MonoBehaviour {
 		public string command;
 		public static CommandJSON CreateFromJSON(string data)
 		{
-			return JsonUtility.FromJson<UserJSON>(data);
+			return JsonUtility.FromJson<CommandJSON>(data);
 		}
 	}
 	[Serializable]

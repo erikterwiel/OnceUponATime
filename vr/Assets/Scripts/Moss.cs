@@ -10,6 +10,7 @@ public class Moss : MonoBehaviour
 	[RuntimeInitializeOnLoadMethod]
 	void Start ()
 	{
+		
 		string dictionaryString = "";
 		// Use Prefabs/* 
 		CommandMap.Add ("pig", "Pig/pig");
@@ -46,11 +47,12 @@ public class Moss : MonoBehaviour
 //		}
 //		print ("dick: " + dictionaryString);
 	}
+
 	
 	// Update is called once per frame
 	void Update ()
 	{
-	
+		
 	}
 }
 
