@@ -15,23 +15,22 @@ public class SpawnPoint : MonoBehaviour {
 	public List <int> targetAngles = new List <int>();
 	public GameObject obj;
 	private bool toDraw = true;
+	static int countObj = 0;
 
 	void Start () 
 	{
 			
 
 	}
-	
+	public static string nameOfObject;
 	void Update () 
 	{
 
 
-		if (toDraw) {
+		/*if (toDraw) {
 			for (int i = 0; i < 2; i++) {
-				if () {
-					
-				}
-				showObj (i);
+				
+				show (nameOfObject, i);
 			}
 
 			toDraw = false;
@@ -40,30 +39,69 @@ public class SpawnPoint : MonoBehaviour {
 
 		for (int i = 0; i < storyObjects.Count; i++) {
 			movObj (i);
-		}
+		}*/
 	}
 
-
-	static int countObj = 0;
-	//string prefab, int quantity
-	void showObj (string prefab, int quantity) 
-	{
-		++countObj;
+	public void show (string prefab, int amount) {
+		++countObj;			
 		var spawnPosition = new Vector3 (0 + countObj * 5, 0, 0);
 		var spawnRotation = Quaternion.Euler (0f, 0f, 0f);
-
 		obj = new GameObject ("MUX");
 
-		obj = Resources.Load (prefab) as GameObject;
+//		obj = Resources.Load ("Prefabs/Wolf/kodi") as GameObject;
+//		prefab = "Wolf/kodi";
+		obj = Resources.Load ("Prefabs/" + prefab) as GameObject;
+		GameObject newObject = Instantiate(obj.gameObject, spawnPosition, spawnRotation) as GameObject;  // instatiate the object			
 
-		storyObjects.Add (Instantiate (obj.gameObject, spawnPosition, spawnRotation));
+		switch (prefab) {
+			case "Pig/pig":
+				newObject.gameObject.transform.Rotate(270f, 90f, 180f);
+				newObject.gameObject.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
+				newObject.gameObject.transform.GetChild(0).localScale -= new Vector3(0.5f, 0.5f, 0.5f);
+				break;
+			case "BrickHouse/Prefabs/Baker_house":
+				newObject.gameObject.transform.Rotate(270f, 90f, 180f);
+				newObject.gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+				break;
+			case "FirePlace/FP2015":
+				newObject.gameObject.transform.Rotate(0f, 90f, 0f);
+				newObject.gameObject.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
+				break;
+			case "Tree/MinecraftTree":
+				newObject.gameObject.transform.Rotate (0f, 5f, 0f);
+				newObject.gameObject.transform.localScale = new Vector3 (1.5f, 1.5f, 1.5f);
+				newObject.gameObject.transform.position = new Vector3 (5f, 5.5f, 0f);
+				break;
+			case "Wolf/kodi":
+				break;
+			case "Cauldron":
+				break;
+			case "green":
+				break;
+			case "blue":
+				break;
+		
+		}
+
+
+
+
+		storyObjects.Add (newObject/*Instantiate (obj.gameObject, spawnPosition, spawnRotation)*/);
 		int[] targetCoord = new int[3];
 		targetCoord [0] = 30;
 		targetCoord [1] = 10;
 		targetCoord [2] = 10;
 		targetCoords.Add (targetCoord);
 		int targetAngle = 45;
-		targetAngles.Add ((targetAngle + 180) % 360);
+		targetAngles.Add ((targetAngle + 180) % 360);	
+	}
+		
+	public void hide (int index) {
+	
+	}
+
+	public void move (int fromIndex, int toIndex) {
+	
 	}
 
 	void hideObj (int id) 
