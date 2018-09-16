@@ -16,7 +16,7 @@ class RecordingManager {
   }
 
   start() {
-    setInterval(this._recordInterval, 10000);
+    setInterval(this._recordInterval, 8000);
     this._recordInterval();
   }
 
@@ -40,7 +40,7 @@ class RecordingManager {
       .pipe(watson.recognizeUsingWebSocket({ content_type: "audio/wav; continuous=true" }))
       .pipe(watsonWriteStream);
 
-    setTimeout(() => record.stop(), 9500)
+    setTimeout(() => record.stop(), 7500)
   }
 }
 
