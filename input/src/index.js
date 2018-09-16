@@ -1,5 +1,6 @@
 const bottle = require("./bottle");
 
-bottle.recordingManager.start();
+const recordingManager = bottle.recordingManager;
+recordingManager.start();
 
 console.log("Listening, press Ctrl+C to stop.");
