@@ -2,25 +2,25 @@ const Wordpos = require("wordpos");
 
 const wordpos = new Wordpos();
 
-const show = ["built", "was", "were"];
+const show = ["built", "was", "were", "had", "are"];
 const hide = ["eight", "down"];
-const move = ["came"];
+const move = ["came", "went", "walked", "moved"];
 const showMove = [];
 const moveHide = ["ate"];
 
 const numbers = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "eleven", "twelve"];
 const numberth = ["zero", "first", "second", "third", "fourth", "fifth", "sixth", "seventh"];
-const badNouns = ["a", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve"];
+const badNouns = ["a", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "to", "the", "th", "zero", "first", "second", "third", "fourth", "fifth", "sixth", "seventh"];
 
 const nounMap = {
   background: "blue",
   ground: "green",
   pig: "Pig/pig",
   pigs: "Pig/pig",
-  house: "HOUSE",
+  house: "BrickHouse/Prefabs/Baker_house",
   "straw house": "StrawHouse/medievalhouse",
   "brick house": "BrickHouse/Prefabs/Baker_house",
-  fireplace: "FirePlace/Prefabs/FP2015",
+  fireplace: "FirePlace/FP2015",
   tree: "Tree/MinecraftTree",
   dog: "Wolf/kodi",
 };
@@ -73,8 +73,6 @@ class BlockchainManager {
         number = numbers.indexOf(word);
       }
 
-      let willBreak = false;
-
       let isNoun = await new Promise(resolve => {
         wordpos.isNoun(word, isNoun => resolve(isNoun));
       }) && !badNouns.includes(word);
@@ -93,28 +91,32 @@ class BlockchainManager {
         }) && !badNouns.includes(word);
       }
 
+      let willBreak = false;
       if (isNoun) {
         noun = word;
         nounIndex = i;
         willBreak = true;
+
       }
 
       if (willBreak) {
         break;
       }
+
+
     }
 
-    if (nounIndex) {
-
-      const isPrevWordAdjective = await this.isAdjective(words[nounIndex - 1]);
-      if (isPrevWordAdjective) {
-        adjective = words[nounIndex - 1];
-      }
-
-      if (words[nounIndex + 1] === "out" && words[nounIndex + 2] === "of") {
-        adjective = words[nounIndex + 2];
-      }
-    }
+    // if (nounIndex) {
+    //
+    //   const isPrevWordAdjective = await this.isAdjective(words[nounIndex - 1]);
+    //   if (isPrevWordAdjective) {
+    //     adjective = words[nounIndex - 1];
+    //   }
+    //
+    //   if (words[nounIndex + 1] === "out" && words[nounIndex + 2] === "of") {
+    //     adjective = words[nounIndex + 2];
+    //   }
+    // }
 
     const word = adjective && !badNouns.includes(adjective) ? `${adjective} ${noun}` : noun;
     const prefab = nounMap[word];
@@ -124,8 +126,9 @@ class BlockchainManager {
     this._queue.push(command);
 
     for (let i = 0; i < number; i++) {
-      this._gameObjects.push(prefab);
+      this._gameObjects.push(word);
     }
+
   }
 
 
@@ -145,17 +148,31 @@ class BlockchainManager {
     let number2;
 
     // find first noun
-    for (let i = verbIndex - 1; i >= 0; i--) {
-      const word = words[i];
+    for (let i = verbIndex -1; i >= 0; i--) {
+      console.log(i);
+      let word = words[i];
+      console.log(word);
+
+      let isNoun = await new Promise(resolve => {
+        wordpos.isNoun(word, isNoun => resolve(isNoun));
+      }) && !badNouns.includes(word);
+
+      if (!isNoun && word[word.length - 1] === "s") {
+        word = word.substring(0, word.length - 1);
+        isNoun = await new Promise(resolve => {
+          wordpos.isNoun(word, isNoun => resolve(isNoun));
+        }) && !badNouns.includes(word);
+      }
+
+      if (!isNoun && word[word.length - 1] === "e") {
+        word = word.substring(0, word.length - 1);
+        isNoun = await new Promise(resolve => {
+          wordpos.isNoun(word, isNoun => resolve(isNoun));
+        }) && !badNouns.includes(word);
+      }
 
       let willBreak = false;
-
-      const isNoun = await new Promise(resolve => {
-        wordpos.isNoun(word, isNoun => resolve(isNoun));
-      });
-
-      const isReallyNoun = !badNouns.includes(word) && isNoun;
-      if (isReallyNoun) {
+      if (isNoun) {
         noun1 = word;
         nounIndex1 = i;
         willBreak = true;
@@ -171,17 +188,29 @@ class BlockchainManager {
     }
 
     // find second noun
-    for (let i = nounIndex1 + 1; i < words.length; i++) {
-      const word = words[i];
+    for (let i = verbIndex; i < words.length; i++) {
+      let word = words[i];
+
+      let isNoun = await new Promise(resolve => {
+        wordpos.isNoun(word, isNoun => resolve(isNoun));
+      }) && !badNouns.includes(word);
+
+      if (!isNoun && word[word.length - 1] === "s") {
+        word = word.substring(0, word.length - 1);
+        isNoun = await new Promise(resolve => {
+          wordpos.isNoun(word, isNoun => resolve(isNoun));
+        }) && !badNouns.includes(word);
+      }
+
+      if (!isNoun && word[word.length - 1] === "e") {
+        word = word.substring(0, word.length - 1);
+        isNoun = await new Promise(resolve => {
+          wordpos.isNoun(word, isNoun => resolve(isNoun));
+        }) && !badNouns.includes(word);
+      }
 
       let willBreak = false;
-
-      const isNoun = await new Promise(resolve => {
-        wordpos.isNoun(word, isNoun => resolve(isNoun));
-      });
-
-      const isReallyNoun = !badNouns.includes(word) && isNoun;
-      if (isReallyNoun) {
+      if (isNoun) {
         noun2 = word;
         nounIndex2 = i;
         willBreak = true;
@@ -196,31 +225,54 @@ class BlockchainManager {
       return;
     }
 
+    // console.log("noun1", noun1);
+    // console.log("noun2", noun2);
+    // console.log("words[nounIndex1 - 1]", words[nounIndex1 - 1]);
+    // console.log("words[nounIndex2 - 1]", words[nounIndex2 - 1]);
 
-
-
-
-
-    const isAdjective1 = await this.isAdjective(words[nounIndex1 - 1]);
-    if (isAdjective1) {
-      adjective1 = words[nounIndex1 - 1];
-    }
-
-    if (words[nounIndex1 + 1] === "out" && words[nounIndex1 + 2] === "of") {
-      adjective1 = words[nounIndex1 + 2];
-    }
+    // const isAdjective1 = await this.isAdjective(words[nounIndex1 - 1]);
+    // if (isAdjective1) {
+    //   adjective1 = words[nounIndex1 - 1];
+    // }
+    //
+    // if (words[nounIndex1 + 1] === "out" && words[nounIndex1 + 2] === "of") {
+    //   adjective1 = words[nounIndex1 + 2];
+    // }
 
     if (numberth.includes(words[nounIndex1 - 1])) {
-      number1 = number
+      number1 = numberth.indexOf(words[nounIndex1 - 1]);
     }
 
+    if (numberth.includes(words[nounIndex2 - 1])) {
+      number2 = numberth.indexOf(words[nounIndex2 - 1]);
+    }
 
-    const word = adjective1 ? `${adjective1} ${noun1}` : noun1;
-    const command = `SHOW>${nounMap[word]}>${number}`;
+    // console.log("number1", number1);
+    // console.log("number2", number2);
 
-    console.log(command);
+    let occurences1 = 0;
+    let occurences2 = 0;
+    let fromIndex;
+    let toIndex;
+    for (let i = 0; i < this._gameObjects.length; i++) {
+      // console.log(this._gameObjects[i], noun1);
+      if (this._gameObjects[i] === noun1) {
+        occurences1++;
+        if (number1 === occurences1) {
+          fromIndex = i;
+        }
+      }
+      if (this._gameObjects[i] === noun2) {
+        occurences2++;
+        if (number2 === occurences2) {
+          toIndex = i;
+        }
+      }
+    }
 
-    this._queue.push(command);
+    this._queue.push(`MOVE>${fromIndex}>${toIndex}`);
+    // const word = adjective1 ? `${adjective1} ${noun1}` : noun1;
+    // const command = `SHOW>${nounMap[word]}>${number}`;
 
   }
 
