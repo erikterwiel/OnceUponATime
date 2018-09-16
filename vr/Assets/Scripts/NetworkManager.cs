@@ -109,12 +109,15 @@ public class NetworkManager : MonoBehaviour {
 			sp.show (prefap, amount);
 		} else if (commandArr [0] == "HIDE") {
 			int index = System.Convert.ToInt32(commandArr [1]);
-			print ("HIDE", index);
+			print ("HIDE");
+			print (index);
 			sp.hide(index);
 		} else if (commandArr [0] == "MOVE") {
 			int fromIndex = System.Convert.ToInt32(commandArr [1]);
 			int toIndex = System.Convert.ToInt32(commandArr [2]);
-			print ("MOVE", fromIndex, toIndex);
+			print ("MOVE");
+			print (toIndex);
+			print (fromIndex);
 			sp.move (fromIndex, toIndex);
 		}
 	}
