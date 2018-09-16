@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+//using Tensorflow;
 
 public class SpawnPoint : MonoBehaviour {
 
 	public List<GameObject> storyObjects = new List<GameObject>();
-	public List<int[]> targetLocations = new List<int[]>();
+	public List<int[]> targetCoords = new List<int[]>();
 	public GameObject obj;
 	private bool toDraw = true;
-	// Use this for initialization
 	void Start () {
 			
 	}
@@ -17,7 +18,6 @@ public class SpawnPoint : MonoBehaviour {
 		yield return new WaitForSeconds(tiem);
 	}
 	
-	// Update is called once per frame
 	void Update () {
 
 
@@ -36,6 +36,11 @@ public class SpawnPoint : MonoBehaviour {
 
 				Debug.Log (obj.name);
 				storyObjects.Add (Instantiate (obj.gameObject, spawnPosition, spawnRotation));
+				int[] mux = new int[3];
+				mux [0] = 50;
+				mux [1] = 50;
+				mux [2] = 50;
+				targetCoords.Add (mux);
 
 			}
 
@@ -44,12 +49,15 @@ public class SpawnPoint : MonoBehaviour {
 
 		}
 
-		for (int i = 0; i < 5; i++) {
-			movObj (i, "back", 10);
 
+		for (int i = 0; i < storyObjects.Count; i++) {
+			for (int j = 0 ; j < 3; j++) {
+				if (targetCoords[i][j] != storyObjects[i].transform.position[j]) {
+					movObj (i,((targetCoords[i][j] - storyObjects[i].transform.position[j]) > 0) ? j : -j, 8);
+				}
+
+			}
 		}
-			
-
 	}
 
 	void destroyObj (int index) {
@@ -57,26 +65,26 @@ public class SpawnPoint : MonoBehaviour {
 		storyObjects.RemoveAt (index);
 	}
 
-	void movObj (int index, string direction, int magnitude) {
+	void movObj (int index, int direction, int magnitude) {
 
 		switch (direction)
 		{
-		case "up":
+		case 2:
 			storyObjects [index].transform.Translate(Vector3.up * Time.deltaTime * magnitude);
 			break;
-		case "down":
+		case -2:
 			storyObjects [index].transform.Translate(-Vector3.up * Time.deltaTime * magnitude);
 			break;
-		case "left":
+		case -1:
 			storyObjects [index].transform.Translate(-Vector3.right * Time.deltaTime * magnitude);
 			break;
-		case "right":
+		case 1:
 			storyObjects [index].transform.Translate(Vector3.right * Time.deltaTime * magnitude);
 			break;
-		case "back":
+		case -3:
 			storyObjects [index].transform.Translate(-Vector3.forward * Time.deltaTime * magnitude);
 			break;
-		case "forward":
+		case 3:
 			storyObjects [index].transform.Translate(Vector3.forward * Time.deltaTime * magnitude);
 			break;
 
