@@ -12,6 +12,7 @@ public class NetworkManager : MonoBehaviour {
 	public SocketIOComponent socket;
 	public InputField playerNameInput;
 	public GameObject player;
+	public static string commandData;
 
 	void Awake()
 	{
@@ -25,8 +26,9 @@ public class NetworkManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// subscribe to all the various websocket events
-		socket.On("newCommand", OnEnemies);
-		print("socket blockchain active");
+		socket.On("newCommand", SendCommands);
+		print("socket blockchain activated");
+		print("Machine Learning activated");
 //		socket.On("other player connected", OnOtherPlayerConnected);
 //		socket.On("play", OnPlay);
 //		socket.On("player move", OnPlayerMove);
@@ -88,6 +90,13 @@ public class NetworkManager : MonoBehaviour {
 	#endregion
 
 	#region Listening
+
+	void SendCommands(SocketIOEvent socketIOEvent) {
+		CommandJSON commandJSON = CommandJSON.CreateFromJSON (socketIOEvent.data.ToString ());
+		print (commandJSON.command.ToString());
+		print (socketIOEvent.data.ToString ());
+		commandData = commandJSON.ToString ();
+	}
 
 	void OnEnemies(SocketIOEvent socketIOEvent)
 	{
@@ -206,6 +215,14 @@ public class NetworkManager : MonoBehaviour {
 
 	#region JSONMessageClasses
 
+	[Serializable]
+	public class CommandJSON {
+		public string command;
+		public static CommandJSON CreateFromJSON(string data)
+		{
+			return JsonUtility.FromJson<UserJSON>(data);
+		}
+	}
 	[Serializable]
 	public class PlayerJSON
 	{
