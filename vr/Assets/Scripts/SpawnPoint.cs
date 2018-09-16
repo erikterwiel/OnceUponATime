@@ -1,49 +1,4 @@
-﻿//using UnityEngine;
-//using System.Collections;
-//using System.Collections.Generic;
-//
-//public class SpawnPoint : MonoBehaviour {
-//
-//	public List<GameObject> storyObjects = new List<GameObject>();
-//	public GameObject obj = new GameObject();
-//	// Use this for initialization
-//	void Start () {
-//		Invoke ("SpawnObj", 2);
-//		Invoke ("SpawnObj", 2);
-//		Invoke ("SpawnObj", 2);
-//		Invoke ("SpawnObj", 2);
-//	}
-//
-//	void SpawnObj(){
-//		for (int i = 0; i < 5; i++) {
-//			var spawnPosition = new Vector3(1f + i, 1f + i, 1f + i);
-//			var spawnRotation = Quaternion.Euler(0f, 0f, 0f);
-//			obj = new GameObject ("MUX");
-//			obj = Resources.Load("Prefabs/FirePlace/FP2015") as GameObject;
-//			storyObjects.Add (obj);
-//			print (storyObjects);
-//			Instantiate(obj, spawnPosition, spawnRotation);
-//		}	
-//		//		StartCoroutine (stall (5));	
-//	}
-//
-////	void DeleteObj() {
-////		for (int i = 0; i < 5; i++) {
-////			DestroyImmediate(storyObjects[i] , true);
-////			//			storyObjects.RemoveAt (i);
-////			print("deleting");
-////		}
-////	}
-//	// Update is called once per frame
-//	void Update () {
-//
-//	}
-//	IEnumerator stall (int tiem) {
-//		yield return new WaitForSeconds(tiem);
-//	}
-//}
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -64,23 +19,10 @@ public class SpawnPoint : MonoBehaviour {
 	public List<int[]> targetCoords = new List<int[]>();
 	public List<int> targetAngles = new List<int>();
 	public GameObject obj;
+	private bool toDraw = true;
 
 	void Start () {
 			
-		for (int i = 0; i < 5; i++) {
-			var spawnPosition = new Vector3(1f + i, 1f + i, 1f + i);
-			var spawnRotation = Quaternion.Euler(0f, 0f, 0f);
-			obj = new GameObject ("MUX");
-			obj = Resources.Load("Prefabs/FirePlace/FP2015") as GameObject;
-			storyObjects.Add (obj);
-			Instantiate(obj, spawnPosition, spawnRotation);
-			print (obj);
-		}
-		//StartCoroutine (stall (5));
-
-		for (int i = 0; i < 5; i++) {
-			storyObjects.RemoveAt (i);
-		}
 
 	}
 
@@ -95,25 +37,7 @@ public class SpawnPoint : MonoBehaviour {
 
 		if (toDraw) {
 			for (int i = 0; i < 2; i++) {
-				var spawnPosition = new Vector3 (1f + i, 1f + i, 1f + i);
-				var spawnRotation = Quaternion.Euler (0f, 0f, 0f);
-
-				obj = new GameObject ("MUX");
-
-				if (i == 0) {
-					obj = Resources.Load ("Prefabs/FirePlace/FP2015") as GameObject;
-				} else {
-					obj = Resources.Load ("Prefabs/Wolf/kodi") as GameObject;
-				}
-
-				storyObjects.Add (Instantiate (obj.gameObject, spawnPosition, spawnRotation));
-				int[] targetCoord = new int[3];
-				targetCoord [0] = 20;
-				targetCoord [1] = 20;
-				targetCoord [2] = 20;
-				targetCoords.Add (targetCoord);
-				int targetAngle = 45;
-				targetAngles.Add ((targetAngle += 180) % 360);
+				showObj (i);
 
 			}
 
@@ -121,23 +45,57 @@ public class SpawnPoint : MonoBehaviour {
 	 
 
 		}
-
+			
 
 		for (int i = 0; i < storyObjects.Count; i++) {
-			for (int j = 0 ; j < 3; j++) {
-				if (targetCoords[i][j] != (int) Math.Round(storyObjects[i].transform.position[j])) {
-					movObj (i,((targetCoords[i][j] - 
-						(int) Math.Round(storyObjects[i].transform.position[j])) > 0) ? j+1 : -j-1, 8);
-				}
+			Vector3 targetVector = new Vector3 (targetCoords [i][0], targetCoords [i][1], targetCoords [i][2]);
+			//storyObjects[i].transform.rotation = new Quaternion(0, targetAngles[i], 0, 0);
+			storyObjects[i].transform.LookAt(storyObjects[2].transform);
+			storyObjects[i].transform.Translate(Time.deltaTime * (targetVector - storyObjects[i].transform.position));
+			/*for (int j = 0 ; j < 3; j++) {
+				if (Math.Abs (targetCoords [i] [j] - (int)Math.Round (storyObjects [i].transform.position [j])) >= 1) {
+					if (j == 0) {
+						print ("dfkjhgjhfdoskljl" + (int) Math.Round (storyObjects [i].transform.position [j]));
+					
+					}
+					//print ("dfkjhgjhfdoskljl" + (int) Math.Round (storyObjects [i].transform.position [j]));
+					movObj (i, ((targetCoords [i] [j] -
+						(int) Math.Round (storyObjects [i].transform.position [j])) > 0) ? j + 1 : -j - 1, 8);
+				} 
 
 			}
-			if ((int) Math.Round (storyObjects [i].transform.rotation.eulerAngles [1]) != targetAngles[i]) {
-				rotObj (i,((targetAngles[i] - (int) Math.Round(storyObjects [i].transform.rotation.eulerAngles [1])) > 0) ? -10: 10);
-			}
+
+			if (Math.Abs((int) Math.Round (storyObjects [i].transform.rotation.eulerAngles [1]) - targetAngles[i]) >= 1) {
+				rotObj (i,((targetAngles[i] - (int) Math.Round(storyObjects [i].
+					transform.rotation.eulerAngles [1])) > 0) ? 35: -35);
+			}*/
+
 		}
 	}
+	//string prefab, int quantity
+	void showObj (int index) {
+		var spawnPosition = new Vector3 (1f + index, 1f + index, 1f + index);
+		var spawnRotation = Quaternion.Euler (0f, 0f, 0f);
 
-	void destroyObj (int index) {
+		obj = new GameObject ("MUX");
+
+		if (index == 0) {
+			obj = Resources.Load ("Prefabs/FirePlace/FP2015") as GameObject;
+		} else {
+			obj = Resources.Load ("Prefabs/Wolf/kodi") as GameObject;
+		}
+
+		storyObjects.Add (Instantiate (obj.gameObject, spawnPosition, spawnRotation));
+		int[] targetCoord = new int[3];
+		targetCoord [0] = 30;
+		targetCoord [1] = 10;
+		targetCoord [2] = 10;
+		targetCoords.Add (targetCoord);
+		int targetAngle = 45;
+		targetAngles.Add ((targetAngle + 180) % 360);
+	}
+
+	void hideObj (int index) {
 		Destroy(storyObjects[index].gameObject);
 		storyObjects.RemoveAt (index);
 	}
@@ -147,22 +105,22 @@ public class SpawnPoint : MonoBehaviour {
 		switch (direction)
 		{
 		case 2:
-			storyObjects [index].transform.Translate(Vector3.up * Time.deltaTime * magnitude);
+			storyObjects [index].transform.Translate(0,Time.deltaTime * magnitude,0);
 			break;
 		case -2:
-			storyObjects [index].transform.Translate(-Vector3.up * Time.deltaTime * magnitude);
+			storyObjects [index].transform.Translate(0,-Time.deltaTime * magnitude,0);
 			break;
 		case -1:
-			storyObjects [index].transform.Translate(-Vector3.right * Time.deltaTime * magnitude);
+			storyObjects [index].transform.Translate(-Time.deltaTime * magnitude,0,0);
 			break;
 		case 1:
-			storyObjects [index].transform.Translate(Vector3.right * Time.deltaTime * magnitude);
+			storyObjects [index].transform.Translate(Time.deltaTime * magnitude,0,0);
 			break;
 		case -3:
-			storyObjects [index].transform.Translate(-Vector3.forward * Time.deltaTime * magnitude);
+			storyObjects [index].transform.Translate(0,0,-Time.deltaTime * magnitude);
 			break;
 		case 3:
-			storyObjects [index].transform.Translate(Vector3.forward * Time.deltaTime * magnitude);
+			storyObjects [index].transform.Translate(0,0,Time.deltaTime * magnitude);
 			break;
 		default:
 			break;
@@ -170,9 +128,9 @@ public class SpawnPoint : MonoBehaviour {
 	}
 
 	void rotObj (int index, int deltaAngle) {
-		storyObjects [index].transform.Rotate (Vector3.up * Time.deltaTime * deltaAngle);
-		print ("MOSS >>>>>>>>>>>> " + storyObjects [1].transform.rotation.eulerAngles [1]);
+		storyObjects [index].transform.Rotate (0, Time.deltaTime * deltaAngle, 0);
 	}
+		
 
 
 }

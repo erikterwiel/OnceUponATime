@@ -7,6 +7,7 @@ public class Moss : MonoBehaviour
 	public Dictionary<string, string> CommandMap = new Dictionary<string, string> ();
 	public GameObject ground;
 	public GameObject sky;
+
 	[RuntimeInitializeOnLoadMethod]
 	void Start ()
 	{
