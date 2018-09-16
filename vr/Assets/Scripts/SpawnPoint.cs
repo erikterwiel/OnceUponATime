@@ -8,26 +8,22 @@ using System;
 
 public class SpawnPoint : MonoBehaviour {
 
-	public Dictionary<string, string> CommandMap = new Dictionary<string, string> ();
+	public Dictionary<string, string> CommandMap = new Dictionary <string, string> ();
 
-	public List<GameObject> storyObjects = new List<GameObject>();
-	public List<int[]> targetCoords = new List<int[]>();
-	public List<int> targetAngles = new List<int>();
+	public List <GameObject> storyObjects = new List<GameObject>();
+	public List <int[]> targetCoords = new List <int[]>();
+	public List <int> targetAngles = new List <int>();
 	public GameObject obj;
 	private bool toDraw = true;
 
-	void Start () {
+	void Start () 
+	{
 			
 
 	}
-
-	IEnumerator stall (int tiem) {
-		yield return new WaitForSeconds(tiem);
-	}
-
-
 	
-	void Update () {
+	void Update () 
+	{
 
 
 		if (toDraw) {
@@ -40,15 +36,14 @@ public class SpawnPoint : MonoBehaviour {
 			
 
 		for (int i = 0; i < storyObjects.Count; i++) {
-			Vector3 targetVector = new Vector3 (targetCoords [i][0], targetCoords [i][1], targetCoords [i][2]);
-			storyObjects[i].transform.LookAt(storyObjects[0].transform);
-			storyObjects[i].transform.Translate(Time.deltaTime * (targetVector - storyObjects[i].transform.position));
+			movObj (i);
 		}
 	}
 
 	//string prefab, int quantity
-	void showObj (string prefab, int quantity) {
-		var spawnPosition = new Vector3 (1f, 1f, 1f);
+	void showObj (string prefab, int quantity) 
+	{
+		var spawnPosition = new Vector3 (Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f));
 		var spawnRotation = Quaternion.Euler (0f, 0f, 0f);
 
 		obj = new GameObject ("MUX");
@@ -65,42 +60,26 @@ public class SpawnPoint : MonoBehaviour {
 		targetAngles.Add ((targetAngle + 180) % 360);
 	}
 
-	void hideObj (int id) {
-		Destroy(storyObjects[id].gameObject);
+	void hideObj (int id) 
+	{
+		GameObject toDie = storyObjects[id];
 		storyObjects.RemoveAt (id);
+
+		Vector3 targetVector = new Vector3 (toDie.transform.position[0], -100, toDie.transform.position[2]);
+		toDie.transform.Translate(Time.deltaTime * (targetVector - toDie.transform.position));
+		Destroy(toDie);
 	}
 
-	void movObj (int id, int direction, int magnitude) {
-
-		switch (direction)
-		{
-		case 2:
-			storyObjects [id].transform.Translate(0,Time.deltaTime * magnitude,0);
-			break;
-		case -2:
-			storyObjects [id].transform.Translate(0,-Time.deltaTime * magnitude,0);
-			break;
-		case -1:
-			storyObjects [id].transform.Translate(-Time.deltaTime * magnitude,0,0);
-			break;
-		case 1:
-			storyObjects [id].transform.Translate(Time.deltaTime * magnitude,0,0);
-			break;
-		case -3:
-			storyObjects [id].transform.Translate(0,0,-Time.deltaTime * magnitude);
-			break;
-		case 3:
-			storyObjects [id].transform.Translate(0,0,Time.deltaTime * magnitude);
-			break;
-		default:
-			break;
-		}
+	void movObj (int id) 
+	{
+		Vector3 targetVector = new Vector3 (targetCoords [id][0], targetCoords [id][1], targetCoords [id][2]);
+		storyObjects[id].transform.LookAt(storyObjects[0].transform);
+		storyObjects[id].transform.Translate(Time.deltaTime * (targetVector - storyObjects[id].transform.position));
 	}
 
-	void rotObj (int index, int deltaAngle) {
-		storyObjects [index].transform.Rotate (0, Time.deltaTime * deltaAngle, 0);
-	}
-		
-
+//	bool OnCollisionEnter (Collision col)
+//	{
+//		print ("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL");
+//	}
 
 }
