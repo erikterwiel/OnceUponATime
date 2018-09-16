@@ -9,8 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bottlejs": "^1.7.1",
     "node-fetch": "^2.2.0",
     "node-record-lpcm16": "^0.3.1",
-    "watson-developer-cloud": "^3.10.0"
+    "watson-developer-cloud": "^3.10.0",
+    "wordpos": "^1.2.0"
   }
 }

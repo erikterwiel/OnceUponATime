@@ -2,6 +2,7 @@ const fetch = require("node-fetch");
 
 class CommandService {
   sendCommand(command) {
+    console.log(command);
     fetch("https://shrouded-forest-21666.herokuapp.com/", {
       method: "POST",
       headers: {
