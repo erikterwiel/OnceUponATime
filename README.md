@@ -1,6 +1,8 @@
 # OnceUponATime
 A Virtual Reality app for Android which converts speech to virtual scenarios in real-time
 
+![demo-img](https://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/000/685/065/datas/gallery.jpg)
+
 ## Inspiration
 In our modern world, the younger generation tends to indulge in using their electronics, while the older generation would prefer that they read a book. Our team believes that these two notions do not need to contradict each other. Once Upon a Time can once again spark children's interest in reading by seamlessly fusing their fairy tales with real-time VR experiences!
 
